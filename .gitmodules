@@ -1,0 +1,6 @@
+[submodule "libs/mgc"]
+	path = libs/mgc
+	url = https://github.com/nyannkov/mgc.git
+[submodule "libs/emu2149"]
+	path = libs/emu2149
+	url = https://github.com/digital-sound-antiques/emu2149.git

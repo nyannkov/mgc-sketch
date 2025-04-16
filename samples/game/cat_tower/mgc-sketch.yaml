@@ -1,0 +1,125 @@
+import_libs:
+  - repo: ../../../libs/mgc
+    resources:
+      - src/mgc -> ./src/libs/mgc
+
+  - repo: ../../../libs/emu2149
+    ref: 1.41
+    resources:
+      - emu2149.c -> ./src/libs/emu2149/emu2149.c
+      - emu2149.h -> ./src/libs/emu2149/emu2149.h
+
+  - repo: ../../../
+    resources:
+      - hw/sound/sound_mml_if.h                   -> ./src/game_io/hw/sound/sound_mml_if.h
+      - hw/sound/sound_mml_psg/sound_mml_psg.h    -> ./src/game_io/hw/sound/sound_mml_psg.h
+      - hw/sound/sound_mml_psg/sound_mml_psg.cpp  -> ./src/game_io/hw/sound/sound_mml_psg.cpp
+
+      - hw/gamepad/gamepad_if.h                   -> ./src/game_io/hw/gamepad/gamepad_if.h
+      - hw/gamepad/gamepad_tiny/gamepad_tiny.h    -> ./src/game_io/hw/gamepad/gamepad_tiny.h
+      - hw/gamepad/gamepad_tiny/gamepad_tiny.c    -> ./src/game_io/hw/gamepad/gamepad_tiny.c
+
+      - hw/display/SSD1331/display_SSD1331.h      -> ./src/game_io/hw/display/display_SSD1331.h
+      - hw/display/SSD1331/display_SSD1331.cpp    -> ./src/game_io/hw/display/display_SSD1331.cpp
+
+resources:
+  - tileset:
+      src:  "./src/resources/tileset/tileset_map_elements.bmp"
+      dest_dir: "./src/resources/generated/tileset"
+      tile_width: 16
+      tile_height: 16
+      tile_count: 16
+
+  - tileset:
+      src:  "./src/resources/tileset/tileset_player.bmp"
+      dest_dir: "./src/resources/generated/tileset"
+      tile_width: 16
+      tile_height: 16
+      tile_count: 25
+
+  - tileset:
+      src:  "./src/resources/tileset/tileset_static_objects.bmp"
+      dest_dir: "./src/resources/generated/tileset"
+      tile_width: 16
+      tile_height: 16
+      tile_count: 5
+
+  - tileset:
+      src:  "./src/resources/tileset/tileset_char.bmp"
+      dest_dir: "./src/resources/generated/tileset"
+      tile_width: 32
+      tile_height: 32
+      tile_count: 5
+
+  - tileset:
+      src:  "./src/resources/tileset/tileset_fish.bmp"
+      dest_dir: "./src/resources/generated/tileset"
+      tile_width: 16
+      tile_height: 16
+      tile_count: 7
+
+  - tileset:
+      src:  "./src/resources/tileset/tileset_items.bmp"
+      dest_dir: "./src/resources/generated/tileset"
+      tile_width: 16
+      tile_height: 16
+      tile_count: 2
+
+  - tileset:
+      src:  "./src/resources/tileset/tileset_title.bmp"
+      dest_dir: "./src/resources/generated/tileset"
+      tile_count: 1
+
+  - map:
+      src: "./src/resources/map/map_scene_002.csv"
+      dest_dir: "./src/resources/generated/map"
+      compression: "runlength"
+
+  - map:
+      src: "./src/resources/map/map_scene_002_bg.csv"
+      dest_dir: "./src/resources/generated/map"
+      compression: "runlength"
+
+  - map:
+      src: "./src/resources/map/map_scene_003.csv"
+      dest_dir: "./src/resources/generated/map"
+      compression: "runlength"
+
+  - map:
+      src: "./src/resources/map/map_scene_004.csv"
+      dest_dir: "./src/resources/generated/map"
+      compression: "runlength"
+
+  - font:
+      src: "../../../font/misaki/misaki_gothic.bdf"
+      dest_dir: "./src/resources/generated/font"
+      subset: "./src/resources/font/subset_misaki.txt"
+
+sketch_config:
+  profiles:
+    xiao_ra4m1:
+      fqbn: Seeeduino:renesas_uno:XIAO_RA4M1
+      platforms:
+        - platform: Seeeduino:renesas_uno (1.2.0)
+          platform_index_url: https://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json
+      libraries:
+        - Adafruit GFX Library (1.12.0)
+        - Adafruit BusIO (1.17.0)
+        - Adafruit SSD1331 OLED Driver Library for Arduino (1.2.2)
+        - Psgino (1.0.0)
+
+compile:
+  verbose: true
+  profile: xiao_ra4m1
+  build_path: ./build
+  build-property:
+    build:
+      extra_flags: 
+        - -I./src
+        - -I./src/libs
+        - -DMGC_PIXELBUF_ORDER=1U
+          #- -DMGC_PIXELBUF_NOSWAP
+          #- -DMGC_DISPLAY_SSD1331_CLOCK_HZ=8000000
+        - -DMGC_SSD1331_USE_FRAME_BUFFER
+        - -DFORCE_SPI_MODE=MODE_SPI
+
