@@ -2,8 +2,7 @@
 
 **mgc-sketch** is a helper tool for building small-scale games and gadgets using the **mgc** library as Arduino sketches.
 
-The goal of this project is to make it easy to write, organize, and build compact software using the `mgc` library on platforms like Arduino. 
-It is especially suitable for microcontroller-based projects such as toys, instruments, and retro-style games.
+The goal of this project is to make it easy to integrate mgc (a library for creating retro-style games and gadgets) as Arduino sketches.
 
 ## Features
 
