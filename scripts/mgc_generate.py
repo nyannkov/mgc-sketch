@@ -132,6 +132,22 @@ def generate_font(config):
             command.append(font_bdf)
             subprocess.run(command)
 
+def generate_talkscript(config):
+    for item in config.get('resources', []):
+        resource = item.get('talkscript')
+        if resource:
+            talkscript_yml = resource.get('src')
+            dest_dir = resource.get('dest_dir')
+
+            command = [python_exe, str(talkscript_gen)]
+            params = {
+                '--dir': dest_dir if dest_dir else './src/generated/talkscript',
+            }
+            for key, value in params.items():
+                if value:
+                    command.extend([key, str(value)])
+            command.append(talkscript_yml)
+            subprocess.run(command)
 
 if __name__ == '__main__':
 
@@ -141,6 +157,7 @@ if __name__ == '__main__':
     tileset_gen = mgc_tools_path / 'tileset_gen/tileset_gen.py'
     map_gen = mgc_tools_path / 'map_gen/map_gen.py'
     font_gen = mgc_tools_path / 'font_gen/font_gen.py'
+    talkscript_gen = mgc_tools_path / 'talkscript_gen/talkscript_gen.py'
 
     with open('mgc-sketch.yaml', 'r', encoding='utf-8') as f:
         config = yaml.safe_load(f)
@@ -152,4 +169,6 @@ if __name__ == '__main__':
     generate_map(config)
 
     generate_font(config)
+
+    generate_talkscript(config)
 

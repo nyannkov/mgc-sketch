@@ -34,10 +34,10 @@ void Scene001::update() {
     SceneState scene_state = get_scene_state();
 
     if ( scene_state == SceneState::Shown ) {
-        if ( !selectbox_menu_.enabled ) {
+        if ( !selectbox_menu_.visible ) {
 
             if ( game_io_.gamepad.is_key_on_edge(GAMEPAD_TINY_KEY_2) ) {
-                selectbox_set_enabled(&selectbox_menu_, true);
+                selectbox_set_visible(&selectbox_menu_, true);
             }
 
         } else {
