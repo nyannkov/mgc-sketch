@@ -9,6 +9,13 @@ struct GameIO {
     GameIO(const mgc_display_if_t &display_handler, const mgc_sound_mml_if_t &sound_handler, const mgc_gamepad_if_t &gamepad_handler)
         : display(display_handler), sound(sound_handler), gamepad(gamepad_handler) {}
 
+    ~GameIO() = default;
+    GameIO(const GameIO&) = delete;
+    GameIO& operator=(const GameIO&) = delete;
+    GameIO(GameIO&&) = default;
+    GameIO& operator=(GameIO&&) = default;
+
+
     void initialize() {
         display.init();
         sound.init();

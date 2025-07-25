@@ -93,7 +93,7 @@ void Scene002::update() {
     }
 }
 
-void Scene002::draw(uint16_t screen_x0, uint16_t screen_y0, uint16_t width, uint16_t height) {
+void Scene002::cell_draw_and_transfer(uint16_t screen_x0, uint16_t screen_y0, uint16_t width, uint16_t height) {
     for ( int16_t y = 0; y < height; y += MGC_CELL2PIXEL(1)) {
         for ( int16_t x = 0; x < width; x += MGC_CELL2PIXEL(1)) {
             tilemap_apply_cell_blending(&tilemap_bg_, &pixelbuffer_, x, y);
@@ -110,6 +110,26 @@ void Scene002::draw(uint16_t screen_x0, uint16_t screen_y0, uint16_t width, uint
             pixelbuffer_draw_cell(&pixelbuffer_, &game_io_.display, screen_x0+x, screen_y0+y);
         }
     }
+}
+
+void Scene002::draw(mgc_framebuffer_t& fb) {
+
+    mgc_point_t camera_pos;
+    camera_get_position(&camera_, &camera_pos);
+
+    framebuffer_clear(&fb, MGC_COLOR(0.0, 1.0, 1.0));
+
+    tilemap_draw(&tilemap_bg_, &fb, &camera_pos, nullptr);
+    tilemap_draw(&tilemap_, &fb, &camera_pos, nullptr);
+    sprite_draw(gate_1_.get_ptr_sprite(), &fb, &camera_pos, nullptr);
+    sprite_draw(gate_2_.get_ptr_sprite(), &fb, &camera_pos, nullptr);
+    sprite_draw(player_.get_ptr_sprite(), &fb, &camera_pos, nullptr);
+    sprite_draw(&text_ready_go_, &fb, &camera_pos, nullptr);
+    label_draw(game_info_.get_ptr_label_countdown(), &fb, &camera_pos, nullptr);
+    dialoguebox_draw(&dialoguebox_, &fb, &camera_pos, nullptr);
+    selectbox_draw(&selectbox_, &fb, &camera_pos, nullptr);
+
+    filter_scene(&fb, MGC_COLOR_BLACK);
 }
 
 void Scene002::init_components() {

@@ -14,8 +14,11 @@ mgc::GameIO game_io(
     gamepad_tiny
 );
 
-uint16_t display_width;
-uint16_t display_height;
+#ifdef MGC_USE_FRAME_BUFFER
+mgc_framebuffer_t fb;
+mgc_color_t buffer[DISPLAY_WIDTH*DISPLAY_HEIGHT];
+#endif
+
 std::unique_ptr<mgc::SceneIf> scene;
 
 uint32_t mml_cb_data;
@@ -34,11 +37,12 @@ void setup() {
     game_io.sound.set_BGM_table(mml_bgm_list, MML_BGM_LIST_COUNT);
     game_io.sound.set_SE_table(mml_se_list, MML_SE_LIST_COUNT);
 
+#ifdef MGC_USE_FRAME_BUFFER
+    framebuffer_init(&fb, buffer, DISPLAY_WIDTH, DISPLAY_HEIGHT);
+#endif
+
     mml_cb_data = 0;
     sound_mml_psg__set_BGM_callback(mml_callback);
-
-    display_width = game_io.display.get_width();
-    display_height = game_io.display.get_height();
 
     mgc::textdb::set_language(mgc::textdb::Language::English);
     //mgc::textdb::set_language(mgc::textdb::Language::Japanese);
@@ -68,9 +72,20 @@ void loop() {
 
     if ( scene ) {
         scene->update();
-        scene->draw(0, 0, display_width, display_height);
-#ifdef MGC_SSD1331_USE_FRAME_BUFFER
-        display_SSD1331_transfer_frame();
+
+#ifdef MGC_USE_FRAME_BUFFER
+        scene->draw(fb);
+        const mgc_color_t* buf = framebuffer_get_buffer(&fb);
+        game_io.display.draw_rect(
+            (uint8_t*)buf,
+            sizeof(mgc_color_t)*DISPLAY_WIDTH*DISPLAY_HEIGHT,
+            0,
+            0,
+            DISPLAY_WIDTH - 1,
+            DISPLAY_HEIGHT - 1
+        );
+#else
+        scene->cell_draw_and_transfer(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
 #endif
         if ( scene->check_trans() ) {
             mgc::SceneId id_prev = scene->get_id();

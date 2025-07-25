@@ -16,7 +16,8 @@ struct Scene002: SceneIf {
     SceneId get_id_next() const override;
     bool check_trans() const override;
     void update() override;
-    void draw(uint16_t screen_x0, uint16_t screen_y0, uint16_t width, uint16_t height) override;
+    void cell_draw_and_transfer(uint16_t screen_x0, uint16_t screen_y0, uint16_t width, uint16_t height) override;
+    void draw(mgc_framebuffer_t& fb) override;
 
 private:
     GameIO &game_io_;

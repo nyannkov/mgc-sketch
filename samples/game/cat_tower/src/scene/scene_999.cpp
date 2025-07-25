@@ -103,7 +103,7 @@ void Scene999::update() {
     player_.update_animation();
 }
 
-void Scene999::draw(uint16_t screen_x0, uint16_t screen_y0, uint16_t width, uint16_t height) {
+void Scene999::cell_draw_and_transfer(uint16_t screen_x0, uint16_t screen_y0, uint16_t width, uint16_t height) {
     for ( int16_t y = 0; y < height; y += MGC_CELL2PIXEL(1)) {
         for ( int16_t x = 0; x < width; x += MGC_CELL2PIXEL(1)) {
             sprite_apply_cell_blending(player_.get_ptr_sprite(), &pixelbuffer_, x, y);
@@ -114,6 +114,17 @@ void Scene999::draw(uint16_t screen_x0, uint16_t screen_y0, uint16_t width, uint
             pixelbuffer_draw_cell(&pixelbuffer_, &game_io_.display, screen_x0+x, screen_y0+y);
         }
     }
+}
+
+void Scene999::draw(mgc_framebuffer_t& fb) {
+
+    framebuffer_clear(&fb, MGC_COLOR_BLACK);
+
+    sprite_draw(player_.get_ptr_sprite(), &fb, nullptr, nullptr);
+    dialoguebox_draw(&dialoguebox_, &fb, nullptr, nullptr);
+    selectbox_draw(&selectbox_, &fb, nullptr, nullptr);
+
+    filter_scene(&fb, MGC_COLOR_BLACK);
 }
 
 void Scene999::init_components() {

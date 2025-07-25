@@ -81,4 +81,29 @@ void filter_scene_cell(mgc_pixelbuffer *pixelbuffer, mgc_color_t color) {
     }
 }
 
+void filter_scene(mgc_framebuffer *framebuffer, mgc_color_t color) {
+    if ( scene_state != SceneState::Shown ) {
+        mgc_color_t* buffer = framebuffer_get_buffer_mut(framebuffer);
+        uint16_t width = framebuffer_get_width(framebuffer);
+        uint16_t height = framebuffer_get_height(framebuffer);
+
+        if ( cell_mask >= 0 ) {
+            uint16_t rows = (uint16_t)((height * (float)cell_mask / MGC_CELL_LEN) + 0.5f);
+            for ( uint16_t y = 0; y < rows; y++ ) {
+                for ( uint16_t x = 0; x < width; x++ ) {
+                    buffer[x + y * width] = MGC_COLOR_SWAP(color);
+                }
+            }
+        } else {
+            uint16_t rows = (uint16_t)((height * (float)cell_mask*-1 / MGC_CELL_LEN) + 0.5f);
+            for ( int32_t y = rows-1; y >= 0; y-- ) {
+                for ( int32_t x = width-1; x >= 0; x-- ) {
+                    buffer[x + y * width] = MGC_COLOR_SWAP(color);
+                }
+            }
+        }
+    }
+}
+
+
 }

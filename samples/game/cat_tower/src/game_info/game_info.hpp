@@ -16,6 +16,12 @@ enum class MainState : uint16_t {
 struct GameInfo {
 
     GameInfo() { }
+    ~GameInfo() = default;
+
+    GameInfo(const GameInfo&) = delete;
+    GameInfo& operator=(const GameInfo&) = delete;
+    GameInfo(GameInfo&&) = default;
+    GameInfo& operator=(GameInfo&&) = default;
 
     void initialize();
 
