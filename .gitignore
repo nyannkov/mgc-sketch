@@ -1,4 +1,5 @@
 /samples/**/libs/
 /samples/**/generated/
+/samples/**/gen/
 /samples/**/build/
 /samples/**/hw/

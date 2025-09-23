@@ -11,11 +11,20 @@ The goal of this project is to make it easy to integrate mgc (a library for crea
 
 ## Getting Started
 
-See [samples/game/cat_tower/README.md](samples/game/cat_tower/README.md) for a quick start guide.
+Start with the pixel art sketch for a quick and easy first run:
+
+[samples/gadget/dot_canvas/README.md](samples/gadget/dot_canvas/README.md)
+
+For a more advanced game sample, check out:
+
+[samples/game/cat_tower/README.md](samples/game/cat_tower/README.md)
 
 ## Contribution
 
-Please refer to [CONTRIBUTING.md](CONTRIBUTING.md) before contributing.
+Thank you for your interest in contributing!
+We welcome the following contributions:
+- Sample code (sketches or demos)
+- Bug reports and improvement suggestions
 
 ## License
 

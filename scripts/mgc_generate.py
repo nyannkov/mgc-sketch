@@ -166,6 +166,22 @@ def generate_btree(config):
             command.append(btree_yml)
             subprocess.run(command)
 
+def generate_anim(config):
+    for item in config.get('resources', []):
+        resource = item.get('anim')
+        if resource:
+            anim_yml = resource.get('src')
+            dest_dir = resource.get('dest_dir')
+
+            command = [python_exe, str(anim_gen)]
+            params = {
+                '--dir': dest_dir if dest_dir else './src/generated/anim',
+            }
+            for key, value in params.items():
+                if value:
+                    command.extend([key, str(value)])
+            command.append(anim_yml)
+            subprocess.run(command)
 
 if __name__ == '__main__':
 
@@ -177,6 +193,7 @@ if __name__ == '__main__':
     font_gen = mgc_tools_path / 'font_gen/font_gen.py'
     talkscript_gen = mgc_tools_path / 'talkscript_gen/talkscript_gen.py'
     btree_gen = mgc_tools_path / 'btree_gen/btree_gen.py'
+    anim_gen = mgc_tools_path / 'anim_gen/anim_gen.py'
 
     with open('mgc-sketch.yaml', 'r', encoding='utf-8') as f:
         config = yaml.safe_load(f)
@@ -192,4 +209,6 @@ if __name__ == '__main__':
     generate_talkscript(config)
 
     generate_btree(config)
+
+    generate_anim(config)
 

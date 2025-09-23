@@ -1,0 +1,45 @@
+import_libs:
+  - repo: ../../../../libs/mgc
+    resources:
+      - src -> ./src/libs/mgc
+
+resources:
+  - anim:
+      src:  "./resources/anim/anim_chick/anim_chick.yml"
+      dest_dir: "./src/gen/anim_chick"
+
+  - anim:
+      src:  "./resources/anim/anim_hen/anim_hen.yml"
+      dest_dir: "./src/gen/anim_hen"
+
+sketch_config:
+  profiles:
+    xiao_rp2040:
+      fqbn: rp2040:rp2040:seeed_xiao_rp2040
+      platforms:
+        - platform: rp2040:rp2040 (5.1.0)
+          platform_index_url: https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json
+      libraries:
+        - Adafruit NeoPixel (1.8.5)
+
+    xiao_rp2350:
+      fqbn: rp2040:rp2040:seeed_xiao_rp2350
+      platforms:
+        - platform: rp2040:rp2040 (5.1.0)
+          platform_index_url: https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json
+      libraries:
+        - Adafruit NeoPixel (1.8.5)
+
+compile:
+  verbose: true
+  profile: xiao_rp2040
+#  profile: xiao_rp2350
+  build_path: ./build
+  build-property:
+    build:
+      extra_flags: 
+        - -I../
+        - -I./src
+        - -I./src/libs/mgc
+        - -DMGC_PIXELBUF_ORDER=1U
+

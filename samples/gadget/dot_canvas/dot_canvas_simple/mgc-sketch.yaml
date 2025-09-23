@@ -1,0 +1,51 @@
+import_libs:
+  - repo: ../../../../libs/mgc
+    resources:
+      - src -> ./src/libs/mgc
+
+resources:
+  - tileset:
+      src:  "./resources/tileset/tileset_chick.bmp"
+      dest_dir: "./src/gen/"
+      tile_width: 6
+      tile_height: 10 
+      tile_count: 2 
+
+  - tileset:
+      src:  "./resources/tileset/tileset_hen.bmp"
+      dest_dir: "./src/gen/"
+      tile_width: 6
+      tile_height: 10 
+      tile_count: 2 
+
+sketch_config:
+  profiles:
+    xiao_rp2040:
+      fqbn: rp2040:rp2040:seeed_xiao_rp2040
+      platforms:
+        - platform: rp2040:rp2040 (5.1.0)
+          platform_index_url: https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json
+      libraries:
+        - Adafruit NeoPixel (1.8.5)
+
+    xiao_rp2350:
+      fqbn: rp2040:rp2040:seeed_xiao_rp2350
+      platforms:
+        - platform: rp2040:rp2040 (5.1.0)
+          platform_index_url: https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json
+      libraries:
+        - Adafruit NeoPixel (1.8.5)
+
+compile:
+  verbose: true
+  profile: xiao_rp2040
+#  profile: xiao_rp2350
+  build_path: ./build
+  build-property:
+    build:
+      extra_flags: 
+        - -I../
+        - -I./src
+        - -I./src/libs/mgc
+        - -DMGC_PIXELBUF_ORDER=1U
+
