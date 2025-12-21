@@ -3,7 +3,7 @@
 #include "gen/anim_hen/anim_hen.h"
 
 void ActorHen::init() {
-    this->set_pos_f({8.0f, 0.0f});
+    this->set_precise_position({8.0f, 0.0f});
     behavior_state_ = ActorHenBehaviorState::WalkLeft_1;
     anim_.set_anim_frames(anim_hen_walk_left);
     anim_.set_loop(true);
@@ -25,7 +25,7 @@ void ActorHen::update_anim() {
 
 void ActorHen::update_behavior() {
     
-    auto pos = this->pos_f();
+    auto pos = this->precise_position();
     auto next_state = behavior_state_;
 
     switch ( next_state ) {
@@ -80,6 +80,6 @@ void ActorHen::update_behavior() {
         break;
     }
 
-    this->set_pos_f(pos);
+    this->set_precise_position(pos);
 }
 
